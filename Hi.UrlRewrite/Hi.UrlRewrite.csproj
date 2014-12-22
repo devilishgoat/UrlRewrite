@@ -78,6 +78,9 @@
     <Compile Include="Entities\Rules\LogicalGrouping.cs" />
     <Compile Include="Entities\Rules\RequestedUrl.cs" />
     <Compile Include="Entities\Rules\Using.cs" />
+    <Compile Include="Entities\ServerVariables\ServerVariable.cs" />
+    <Compile Include="Entities\ServerVariables\RequestHeader.cs" />
+    <Compile Include="Entities\ServerVariables\IServerVariable.cs" />
     <Compile Include="Extensions\ItemExtensions.cs" />
     <Compile Include="Fields\SiteDropList.cs" />
     <Compile Include="Processing\Results\ConditionMatchResult.cs" />
@@ -107,6 +110,9 @@
     <Compile Include="Templates\Conditions\BaseConditionItem.cs" />
     <Compile Include="Templates\Conditions\ConditionAdvancedItem.cs" />
     <Compile Include="Templates\RedirectSubFolderItem.cs" />
+    <Compile Include="Templates\ServerVariables\BaseServerVariableItem.cs" />
+    <Compile Include="Templates\ServerVariables\ServerVariableItem.cs" />
+    <Compile Include="Templates\ServerVariables\RequestHeaderItem.cs" />
     <Compile Include="Templates\SimpleRedirectItem.cs" />
     <Compile Include="Templates\Action\Base\BaseActionItem.cs" />
     <Compile Include="Templates\Action\Base\BaseRedirectActionItem.cs" />

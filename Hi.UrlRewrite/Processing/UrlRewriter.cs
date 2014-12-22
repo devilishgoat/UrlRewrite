@@ -420,6 +420,7 @@ namespace Hi.UrlRewrite.Processing
 
             ruleResult.RewrittenUri = new Uri(rewriteUrl);
             ruleResult.StopProcessing = redirectAction.StopProcessingOfSubsequentRules;
+            ruleResult.ServerVariables = inboundRule.ServerVariables;
         }
 
         private void ProcessItemQueryRedirectAction(InboundRule inboundRule, Uri uri, Match inboundRuleMatch, Match lastConditionMatch, RuleResult ruleResult)

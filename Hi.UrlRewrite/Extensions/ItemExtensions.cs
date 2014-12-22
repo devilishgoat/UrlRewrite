@@ -7,6 +7,7 @@ using Hi.UrlRewrite.Templates;
 using Hi.UrlRewrite.Templates.Action;
 using Hi.UrlRewrite.Templates.Action.Base;
 using Hi.UrlRewrite.Templates.Conditions;
+using Hi.UrlRewrite.Templates.ServerVariables;
 using Sitecore.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Sitecore.Data;
+using Hi.UrlRewrite.Entities.ServerVariables;
 
 namespace Hi.UrlRewrite
 {
     public static class ItemExtensions
     {
-        public static InboundRule ToInboundRule(this InboundRuleItem inboundRuleItem, IEnumerable<BaseConditionItem> conditionItems, string siteNameRestriction)
+        public static InboundRule ToInboundRule(this InboundRuleItem inboundRuleItem, IEnumerable<BaseConditionItem> conditionItems, IEnumerable<BaseServerVariableItem> serverVariablesItems, string siteNameRestriction)
         {
 
             if (inboundRuleItem == null)
@@ -139,6 +141,14 @@ namespace Hi.UrlRewrite
                     .ToList();
             }
 
+            if (serverVariablesItems != null)
+            {
+                inboundRule.ServerVariables = serverVariablesItems
+                    .Select(e => e.ToServerVariable())
+                    .Where(e => e != null)
+                    .ToList();
+            }
+
             inboundRule.SiteNameRestriction = siteNameRestriction;
 
             return inboundRule;
@@ -159,8 +169,8 @@ namespace Hi.UrlRewrite
 
             RulesEngine.GetRedirectUrlOrItemId(redirectTo, out actionRewriteUrl, out redirectItemId, out redirectItemAnchor);
 
-            var redirectAction = new RedirectAction 
-            { 
+            var redirectAction = new RedirectAction
+            {
                 Name = redirectItem.Name,
                 AppendQueryString = redirectItem.BaseRedirectAction.AppendQueryString.Checked,
                 RewriteUrl = actionRewriteUrl,
@@ -301,7 +311,7 @@ namespace Hi.UrlRewrite
             var itemQueryRedirectAction = new ItemQueryRedirectAction()
             {
                 Name = itemQueryRedirectItem.Name,
-                ItemQuery =  itemQueryRedirectItem.ItemQuery.Value
+                ItemQuery = itemQueryRedirectItem.ItemQuery.Value
             };
 
             var baseRewriteItem = itemQueryRedirectItem.BaseRewriteItem;
@@ -410,5 +420,40 @@ namespace Hi.UrlRewrite
 
             return condition;
         }
+
+        public static IServerVariable ToServerVariable(this BaseServerVariableItem baseServerVariableItem)
+        {
+            if (baseServerVariableItem == null)
+            {
+                return null;
+            }
+
+            IServerVariable serverVariable;
+
+            if (baseServerVariableItem.ID.Equals(new ID(ServerVariableItem.TemplateId)))
+            {
+                serverVariable = new ServerVariable
+                {
+                    Name = baseServerVariableItem.Name,
+                    ReplaceExistingValue = baseServerVariableItem.ReplaceExistingValue.Checked,
+                    VariableName = baseServerVariableItem.VariableName.Value,
+                    Value = baseServerVariableItem.Value.Value
+                };
+
+            }
+            else
+            {
+                serverVariable = new RequestHeader
+                {
+                    Name = baseServerVariableItem.Name,
+                    ReplaceExistingValue = baseServerVariableItem.ReplaceExistingValue.Checked,
+                    VariableName = baseServerVariableItem.VariableName.Value,
+                    Value = baseServerVariableItem.Value.Value
+                };
+            }
+
+            return serverVariable;
+        }
+
     }
 }

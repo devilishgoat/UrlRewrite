@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Channels;
 using Hi.UrlRewrite.Entities.Actions;
+using Hi.UrlRewrite.Entities.ServerVariables;
 
 namespace Hi.UrlRewrite.Processing.Results
 {
@@ -18,6 +21,11 @@ namespace Hi.UrlRewrite.Processing.Results
                 RewrittenUri = finalRuleResult.RewrittenUri;
                 FinalAction = finalRuleResult.ResultAction;
             }
+
+            ServerVariables = processedResults
+                .Where(pr => pr.ServerVariables.Count > 0)
+                .SelectMany(pr => pr.ServerVariables)
+                .ToList();
         }
 
         public Uri OriginalUri { get; set; }
@@ -49,6 +57,7 @@ namespace Hi.UrlRewrite.Processing.Results
 
         public bool MatchedAtLeastOneRule { get; set; }
         public List<RuleResult> ProcessedResults { get; set; }
+        public List<IServerVariable> ServerVariables { get; set; }
 
     }
 }

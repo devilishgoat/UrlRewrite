@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Hi.UrlRewrite.Entities.Actions;
 using Hi.UrlRewrite.Entities.Conditions;
+using Hi.UrlRewrite.Entities.ServerVariables;
 
 namespace Hi.UrlRewrite.Entities.Rules
 {
@@ -17,12 +18,14 @@ namespace Hi.UrlRewrite.Entities.Rules
         public LogicalGrouping? ConditionLogicalGrouping { get; set; }
         public Using? Using { get; set; }
         public List<Condition> Conditions { get; set; }
+        public List<IServerVariable> ServerVariables { get; set; }
         public bool Enabled { get; set; }
         public string SiteNameRestriction { get; set; }
 
         public InboundRule()
         {
             Conditions = new List<Condition>();
+            ServerVariables = new List<IServerVariable>();
         }
     }
 }

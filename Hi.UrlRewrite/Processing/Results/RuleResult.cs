@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using Hi.UrlRewrite.Entities.Actions;
+using Hi.UrlRewrite.Entities.ServerVariables;
 
 namespace Hi.UrlRewrite.Processing.Results
 {
@@ -18,5 +20,12 @@ namespace Hi.UrlRewrite.Processing.Results
 
         public IBaseAction ResultAction { get; set; }
         public ConditionMatchResult ConditionMatchResult { get; set; }
+
+        public List<IServerVariable> ServerVariables { get; set; }
+
+        public RuleResult()
+        {
+            ServerVariables = new List<IServerVariable>();
+        }
     }
 }
